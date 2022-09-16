@@ -3,15 +3,8 @@ import Foundation
 // MARK: - User
 struct User: Decodable {
     let results: [Result]?
-    let info: Info?
 }
 
-// MARK: - Info
-struct Info: Decodable {
-    let seed: String?
-    let results, page: Int?
-    let version: String?
-}
 
 // MARK: - Result
 struct Result: Decodable {
