@@ -36,7 +36,6 @@ extension MainViewController {
             do {
                 let user = try jsonDecoder.decode(User.self, from: data)
                 print(user)
-                let randu = user.results
             } catch {
                 print(error.localizedDescription)
             }
