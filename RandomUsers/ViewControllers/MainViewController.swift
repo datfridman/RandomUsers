@@ -7,9 +7,11 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UITableViewController {
     
-    private let userDataURL = "https://randomuser.me/api/"
+    enum Links: String {
+        case userDataURL = "https://randomuser.me/api/"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,26 +23,23 @@ class MainViewController: UIViewController {
 // MARK: - Networking
 extension MainViewController {
     private func fetchUserData() {
-        guard let userURL = URL(string: userDataURL) else { return }
+        guard let userURL = URL(string: Links.userDataURL.rawValue) else { return }
         
-        let session = URLSession(configuration: .default)
-        
-        let getUserDataTask = session.dataTask(with: userURL) { data, _, error in
+        URLSession.shared.dataTask(with: userURL) { data, _, error in
             guard let data = data else {
                 print(error?.localizedDescription ?? "Error with no data")
                 return
             }
             
-            let jsonDecoder = JSONDecoder()
+            let decoder = JSONDecoder()
             
             do {
-                let user = try jsonDecoder.decode(User.self, from: data)
+                let user = try decoder.decode(User.self, from: data)
                 print(user)
             } catch {
                 print(error.localizedDescription)
             }
             
-        }
-        getUserDataTask.resume()
+        }.resume()
     }
 }
